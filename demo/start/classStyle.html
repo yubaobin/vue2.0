@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>计算属性</title>
+	<meta charset="utf-8">
+	<style type="text/css">
+		.anim {
+			position: relative;
+			left: 50%;
+			transition: all 1s;
+			border: 1px solid #CDCDCD;
+			width: 100px;
+			height: 100px;
+		}
+		.left {
+			left: 10%;
+		}
+		.right {
+			right: 10%;
+		}
+		.ease {
+			transition-timing-function: ease;
+		}
+		.ease-in {
+			transition-timing-function: ease-in;
+		}
+		.ease-in-out {
+			transition-timing-function: ease-in-out;
+		}
+	</style>
+	<script type="text/javascript" src="../vuejs/vue.js"></script>
+</head>
+<body>
+<div id="app">
+	<p>对象</p>
+	<div :class="{anim:true,left:isLeft,right:isRight}" class="ease">
+		JSON字符串
+	</div>
+	<div :class="classObject" class="ease-in">
+		直接对象
+	</div>
+	<div :class="classComputed" class="ease-in-out">
+		计算属性
+	</div>
+	<button @click="move()">移动</button>
+
+	<p>数组</p>
+	<div :class="[array1,array2,{anim:true}]"></div>
+
+	<p>style</p>
+	<div :style="{color:color,fontSize:fontSize}" class="anim" >
+		style对象
+	</div>
+	<div :style="styleObject" class="anim" >
+		直接对象
+	</div>
+</div>
+</body>
+<script type="text/javascript">
+var vm = new Vue({
+	el: "#app",
+	data: {
+		//对象
+		isLeft:true,
+		isRight: false,
+		classObject: {
+			anim:true,
+			left:true,
+			right:false
+		},
+		//数组
+		array1:'class1',
+		array2:'class2',
+
+		//style
+		color:'#ABABAB',
+		fontSize: '30px',
+		//styleObject
+		styleObject :{
+			color:'#EF2222',
+			fontSize: '30px'
+		}
+	},
+	methods: {
+		move: function(){
+			this.isLeft = !this.isLeft;
+			this.isRight = !this.isRight;
+			this.classObject.left = !this.classObject.left;
+			this.classObject.right = !this.classObject.right;
+		}
+	},
+	computed: {
+		classComputed: function(){
+			let left = !this.isLeft;
+			let right = !this.isRight;
+			return {
+				anim: true,
+				left: left,
+				right: right
+			}
+		}
+	}
+});
+</script>
+</html>

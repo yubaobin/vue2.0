@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>计算属性</title>
+	<meta charset="utf-8">
+	<script type="text/javascript" src="../vuejs/vue.js"></script>
+</head>
+<body>
+<div id="app">
+	<p>我爱你：{{msg}}</p>
+	<p>计算属性得到你爱我：{{reverse}}</p>
+	<p>methods得到你爱我：{{reverseMethods()}}</p>
+</div>
+</body>
+<script type="text/javascript">
+	var vm = new Vue({
+		el: "#app",
+		data: {
+			msg :{
+				age: 15,
+				name:"I love you",
+				a: 1,
+				b:2
+			}
+		},
+		computed: {
+			reverse: {
+				get: function(){
+					console.log('getter');
+					let list = this.msg.name.split(' '); 
+					return list.reverse().join(' ');
+				},
+				set: function(value){
+					console.log('setter');
+				}
+			}
+		},
+		methods: {
+			reverseMethods: function(){
+				let list = this.msg.name.split(' '); 
+				return list.reverse().join(' ');;
+			}
+		},
+		watch: {
+			"msg.age": function(){
+				console.log('watch msg.age');
+			},
+			'reverseMethods': function(){
+				console.log('watch reverseMethods');
+			}
+		}
+	})
+</script>
+</html>

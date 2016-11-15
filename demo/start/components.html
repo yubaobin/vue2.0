@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>组件</title>
+	<meta charset="utf-8">
+	<script type="text/javascript" src="../vuejs/vue.js"></script>
+</head>
+<body>
+<div id="app">
+	<ol>
+		<li v-for="(item,index) in todos">
+			<span :id="'list-'+(index+1)" >{{index}}</span>
+			<ybb v-for="(value,key) in item" v-bind:ybb="value" :ybb2="key"></ybb>
+		</li>
+	</ol>
+	<h1>v-for遍历</h1>
+	<ybb v-for="(item,index) in todos" v-bind:ybb="item.name" :ybb2="index"></ybb>
+	<h2>过滤器</h2>
+	<span>{{num | testFilter(2,3)}}</span>
+
+	<p>局部组件例子</p>
+	<innerapp></innerapp>
+</div>
+</body>
+<script type="text/javascript">
+	Vue.component('ybb',{
+		props:['ybb','ybb2'],
+		template: `<div v-on:click="clicked">
+					<p>{{ybb}}</p>
+					<p>ybb2:{{ybb2}}</p>
+					<p >没有通过v-once绑定的ybb3:{{ybb3}}</p>
+					<p v-once>通过v-once绑定的ybb3:{{ybb3}}</p>
+					<p v-html="ybb4"></p>
+				</div>`,
+		created: function(){
+			console.log("ybb创建");
+		},
+		data:function(){
+			return {
+				ybb3: 1,
+				ybb4: 'ybb4属性'
+			}
+		},
+		beforeUpdate: function(){
+			console.log('更新前before');
+		},
+		updated: function(){
+			console.log('更新后');
+		},
+		methods:{
+			clicked: function(){
+				this.ybb3++;
+			}
+		}
+	})
+	var app = new Vue({
+	  el: "#app",
+	  data: {
+	    todos: [
+	      { name: '学' },
+	      { name: '习' },
+	      { name: 'ing' }
+	    ],
+	    num : 1
+	  },
+	  created: function(){
+		console.log("app被创建");
+	  },
+	  //过滤器
+	  filters:{
+	  	testFilter: function(value,...arg2){
+	  		console.log('过滤value',value);
+	  		for(let [index,item] of arg2.entries()){
+	  			console.log('过滤arg'+(index+1),item);
+	  		}
+	  		
+	  		return value;
+	  	}
+	  },
+	  components: {
+	  	'innerapp':{
+	  		template: '<div>局部组件ybb</div>'
+	  	}
+	  }
+	})
+</script>
+</html>

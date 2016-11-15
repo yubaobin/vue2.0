@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>demo开始</title>
+    <meta charset="utf-8">
+    <script type="text/javascript" src="../vuejs/vue.js"></script>
+</head>
+
+<body>
+    <div id="app">
+        {{ message }}
+        <p v-bind:title="msg">
+            Hover your mouse over me for a few seconds to see my dynamically bound title!
+        </p>
+        <p v-if="see">显示if</p>
+        <div v-else>显示else</div>
+
+        <p>v-for</p>
+        <ol>
+            <li v-for="i in list">
+                {{ i.name }}
+            </li>
+        </ol>
+        
+        <ul>
+            <template v-for="(item,index) in list">
+                <li v-for="value in item">
+                    <span></span><span>{{value}}</span>
+                </li>
+                <li>
+                    template不会保留
+                </li>
+            </template>
+        </ul>
+        <p>v-for迭代对象</p>
+        <table>
+            <tr v-for="(value,key) in forObject">
+                <td >{{key}}:</td><td>{{value}}</td>
+            </tr>
+        </table>
+        <table>
+            <tr v-for="(value,key,index) in forObject">
+                <td >{{index}}、{{key}}:</td><td>{{value}}</td>
+            </tr>
+        </table>
+        <p>v-on</p>
+        <button v-on:click="addList">Reverse Message</button>
+        
+        <p>v-model</p>
+        <p>{{modelData}}</p>
+        <input v-model.number="modelData" type="number" />
+
+        <div>
+            <p>checkbox的值为true|false</p>
+            <input type="checkbox" v-model="checkbox1" value="a" /><span>{{checkbox1}}</span>
+        </div>
+        <div>
+            <p>radio的值为 input的value</p>
+            <input type="radio" v-model="radio1" value="a" />
+            <input type="radio" v-model="radio1" value="b" />
+            <span>{{radio1}}</span>
+        </div>
+        <div>
+            <p>select的值为 option的value</p>
+            <select v-model="select1">
+                <option value="s1">1</option>
+                <option value="s2">2</option>
+            </select>
+            <span>{{select1}}</span>
+        </div>
+    </div>
+
+    <div id="app2">
+        <p>{{name}}</p>
+        <p></p>
+    </div>
+</body>
+<script type="text/javascript">
+var app = new Vue({
+    el: '#app',
+    data: {
+        message: 'Hello Vue!',
+        msg: '绑定的title',
+        see: false,
+        list: [{
+            name: '你'
+        }, {
+            name: '我'
+        }, {
+            name: '他'
+        }],
+        forObject: {
+            age:12,
+            name: 'ybb',
+            sex: '男'
+        },
+        modelData: "",
+        checkbox1: "",
+        radio1: "",
+        select1: ""
+    },
+    methods: {
+    	addList: function(){
+    		const a = {
+    			name: new Date().getDate()
+    		}
+    		let obj = Object.create(a);
+    		this.list.push(obj);
+    	}
+    }
+})
+
+var data = {
+    name:'第二个app'
+}
+
+var app2 = new Vue({
+    el:'#app2',
+    data:data
+})
+</script>
+
+</html>
